@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tudo Sobre Biomateriais</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --bg-color: #f0f9ff;
+            --text-main: #334155;
+            --text-light: #475569;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Estilos do Accordion */
+        .accordion-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e0f2fe;
+        }
+
+        .accordion-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-hover);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #e0f2fe;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.8rem;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .accordion-item.active .accordion-header {
+            background-color: #e0f2fe;
+            border-bottom: 1px solid #bae6fd;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            background-color: white;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 1200px; /* Aumentado para caber texto e imagens */
+        }
+
+        .content-inner {
+            padding: 2rem;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .content-inner p {
+            margin: 0;
+        }
+
+        /* Estilo das Ilustrações no código */
+        .illustration {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px auto;
+            display: block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 2px solid #f1f5f9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 2rem;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomateriais — A interface entre tecido vivo e engenharia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Biomateriais no Século XXI</h1>
+        <p>A ponte entre a engenharia de materiais e a medicina moderna</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="accordion-item">
+            <div class="accordion-header">O que são e como funcionam?</div>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    <p><strong>Biomateriais</strong> são substâncias projetadas para interagir com os sistemas biológicos. Eles podem ser de origem natural (como colágeno) ou sintética (como polímeros, cerâmicas e metais como o titânio).</p>
+                    <img src="watermarked_img_11177295389414955292.jpg" alt="Bioimpressão 3D de órgãos" class="illustration">
+                    <p><strong>Como funcionam:</strong> A regra de ouro é a <em>biocompatibilidade</em>. O material deve interagir com o corpo sem causar reações tóxicas. Tecnologias modernas, como a bioimpressão 3D (ilustrada acima), permitem criar tecidos usando hidrogéis que se comportam exatamente como tecidos humanos naturais.</p>
+                </div>
+<div class="brandmark">Biomateriais</div>
+
+<nav class="rail" id="rail"></nav>
+
+<div class="progress">
+  <span class="cur" id="curNum">01</span>
+  <div class="track"><i id="progFill" style="width:12.5%"></i></div>
+  <span id="totNum">08</span>
+</div>
+
+<div class="arrows">
+  <button id="prevBtn" aria-label="Slide anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
+  <button id="nextBtn" aria-label="Próximo slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- ========== SLIDE 0 — HERO ========== -->
+  <section class="slide" id="s0">
+    <div class="hero-wrap">
+      <div>
+        <h1 class="hero-title">Biomateriais</h1>
+        <p class="hero-sub">A interface entre o tecido vivo e a engenharia de materiais</p>
+        <p class="hero-desc">Como estruturas desenvolvidas pelo homem aprendem a conviver com o corpo humano — do primeiro fio de sutura à impressão de tecidos sob medida.</p>
+      </div>
+      <div class="hero-visual">
+        <svg viewBox="0 0 400 400" width="100%" height="100%" id="scaffoldSvg"></svg>
+      </div>
+    </div>
+    <div class="hero-scroll"><div class="bar"><i></i></div> role para começar</div>
+  </section>
+
+  <!-- ========== SLIDE 1 — INTRO / CONCEITO ========== -->
+  <section class="slide" id="s1">
+    <div class="slide-num">01</div>
+    <div class="slide-inner">
+      <div class="kicker">Introdução e conceito</div>
+      <h2>O que são biomateriais</h2>
+      <p class="lede">Substâncias — naturais ou sintéticas — projetadas para interagir com sistemas biológicos, substituindo, reparando ou potencializando um tecido, órgão ou função do corpo.</p>
+
+      <div class="intro-grid">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-era">Antiguidade</div>
+              <div class="tl-text">Suturas de fibras naturais e placas metálicas rudimentares usadas em ferimentos e fraturas.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-era">Século XX</div>
+              <div class="tl-text">Aço inoxidável, titânio e polímeros sintéticos abrem caminho para as próteses modernas.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-era">Engenharia atual</div>
+              <div class="tl-text">Materiais bioativos, impressão 3D e engenharia de tecidos passam a guiar a regeneração do próprio corpo.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Qual a sua aplicabilidade e setores de uso?</div>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    <p>Eles revolucionaram a <strong>Medicina, Odontologia e Biotecnologia</strong>. Estão presentes em cirurgias reconstrutivas, ortopedia e cardiologia.</p>
+                    <img src="watermarked_img_2705392831025878796.jpg" alt="Válvula cardíaca de alta tecnologia" class="illustration">
+                    <ul>
+                        <li><strong>Cardiologia:</strong> Válvulas cardíacas artificiais de alta precisão (veja a imagem) e stents.</li>
+                        <li><strong>Ortopedia e Odontologia:</strong> Próteses e implantes que se integram perfeitamente aos ossos.</li>
+                        <li><strong>Oftalmologia:</strong> Lentes intraoculares para curar catarata.</li>
+                        <li><strong>Farmacologia:</strong> Cápsulas e polímeros para liberação controlada de medicamentos no corpo.</li>
+                    </ul>
+                </div>
+            </div>
+        <div class="compat-box">
+          <h3>Biocompatibilidade</h3>
+          <p>O requisito essencial de todo biomaterial: a capacidade de desempenhar sua função em contato com o organismo sem provocar rejeição, toxicidade ou uma resposta inflamatória prejudicial.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Trazem algum mal? (Riscos)</div>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    <p>Embora seguros, a introdução de um corpo estranho nunca é 100% isenta de riscos. Se o biomaterial não for perfeitamente biocompatível, problemas podem surgir.</p>
+                    <img src="watermarked_img_2528219157959748197.jpg" alt="Visão microscópica da integração osso e titânio" class="illustration">
+                    <ul>
+                        <li><strong>Rejeição imunológica:</strong> O corpo pode inflamar e tentar expulsar o material.</li>
+                        <li><strong>Falha na Osseointegração:</strong> Como mostrado na imagem microscópica acima, um implante de titânio precisa se fundir ao osso. Se houver falha, o implante se solta.</li>
+                        <li><strong>Desgaste:</strong> Micropartículas podem se desprender de próteses metálicas com o atrito dos anos.</li>
+                    </ul>
+                </div>
+            </div>
+  <!-- ========== SLIDE 2 — CLASSIFICAÇÃO RESPOSTA BIOLÓGICA ========== -->
+  <section class="slide" id="s2">
+    <div class="slide-num">02</div>
+    <div class="slide-inner">
+      <div class="kicker">Classificação quanto à resposta biológica</div>
+      <h2>Como o corpo responde ao material</h2>
+      <p class="lede">A classificação depende do grau de interação química e biológica entre o material implantado e o tecido vivo.</p>
+
+      <div class="spectrum">
+        <div class="spectrum-line"></div>
+        <div class="spectrum-stops">
+          <div class="stop">
+            <h3>Bioinertes</h3>
+            <p>Convivem com o organismo praticamente sem reagir quimicamente com o tecido ao redor.</p>
+            <span class="ex">ex.: titânio em próteses</span>
+          </div>
+          <div class="stop">
+            <h3>Bioativos</h3>
+            <p>Formam uma ligação química direta e estável com o tecido vivo adjacente.</p>
+            <span class="ex">ex.: biovidros</span>
+          </div>
+          <div class="stop">
+            <h3>Bioabsorvíveis</h3>
+            <p>Degradam-se de forma controlada e são reabsorvidos pelo corpo ao longo do tempo.</p>
+            <span class="ex">ex.: fios de sutura</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Vantagens e Acessibilidade</div>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    <p><strong>Vantagens:</strong> Restauram a capacidade motora, curam problemas estruturais (como válvulas do coração doentes) e literalmente salvam ou prolongam vidas mantendo uma alta qualidade.</p>
+                    <p><strong>Acessibilidade:</strong> Itens fundamentais como pinos de titânio, cimentos ósseos e fios de sutura já são padronizados e oferecidos em larga escala pelos sistemas públicos de saúde (como o SUS no Brasil). Entretanto, tecnologias de ponta, como tecidos bioimpressos em 3D, ainda possuem custo elevado e acesso restrito.</p>
+                </div>
+            </div>
+  <!-- ========== SLIDE 3 — CLASSES DE MATERIAIS ========== -->
+  <section class="slide" id="s3">
+    <div class="slide-num">03</div>
+    <div class="slide-inner">
+      <div class="kicker">Classes de materiais utilizados</div>
+      <h2>Quatro famílias, quatro funções</h2>
+
+      <div class="matlist">
+        <div class="mat-row">
+          <div class="mat-name">Polímeros</div>
+          <div>
+            <div class="mat-bar-track"><div class="mat-bar-fill" style="width:85%"></div></div>
+            <div class="mat-prop">flexibilidade e moldabilidade</div>
+          </div>
+          <div class="mat-desc">Flexíveis e moldáveis — usados em lentes de contato e pele artificial.</div>
+        </div>
+        <div class="mat-row">
+          <div class="mat-name">Metais</div>
+          <div>
+            <div class="mat-bar-track"><div class="mat-bar-fill" style="width:92%"></div></div>
+            <div class="mat-prop">resistência mecânica</div>
+          </div>
+          <div class="mat-desc">Alta resistência mecânica — ideais para pinos e placas ortopédicas.</div>
+        </div>
+        <div class="mat-row">
+          <div class="mat-name">Cerâmicas</div>
+          <div>
+            <div class="mat-bar-track"><div class="mat-bar-fill" style="width:80%"></div></div>
+            <div class="mat-prop">resistência à compressão</div>
+          </div>
+          <div class="mat-desc">Resistentes à compressão — muito aplicadas na odontologia e em enxertos ósseos.</div>
+        </div>
+        <div class="mat-row">
+          <div class="mat-name">Compósitos</div>
+          <div>
+            <div class="mat-bar-track"><div class="mat-bar-fill" style="width:70%"></div></div>
+            <div class="mat-prop">propriedades sob medida</div>
+          </div>
+          <div class="mat-desc">Combinam materiais para imitar as propriedades exatas do osso.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Impacto Econômico</div>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    <p>O impacto econômico é imenso e impulsionado pelo envelhecimento populacional e avanços tecnológicos.</p>
+                    <p>O mercado global de biomateriais movimenta centenas de bilhões de dólares e tem um crescimento constante. Esse setor estimula startups de biotecnologia, atrai investimentos pesados em pesquisa nas universidades e gera empregos altamente qualificados para engenheiros, biólogos e médicos.</p>
+                </div>
+            </div>
+  <!-- ========== SLIDE 4 — APLICAÇÕES CLÍNICAS ========== -->
+  <section class="slide" id="s4">
+    <div class="slide-num">04</div>
+    <div class="slide-inner">
+      <div class="kicker">Principais aplicações clínicas</div>
+      <h2>Onde os biomateriais atuam no corpo</h2>
+
+      <div class="app-grid">
+        <div class="body-fig">
+          <svg viewBox="0 0 200 400" width="100%">
+            <circle cx="100" cy="38" r="26" fill="none" stroke="var(--titanium)" stroke-width="1.4"/>
+            <path d="M100 64 L100 210 M100 90 L52 165 M100 90 L148 165 M100 210 L68 320 M100 210 L132 320" fill="none" stroke="var(--titanium)" stroke-width="1.4" stroke-linecap="round"/>
+            <ellipse cx="100" cy="130" rx="42" ry="55" fill="none" stroke="var(--titanium)" stroke-width="1.4"/>
+          </svg>
+          <div class="marker" style="left:38%; top:12%;" title="Odontologia"></div>
+          <div class="marker" style="left:50%; top:33%;" title="Cardiologia"></div>
+          <div class="marker" style="left:47%; top:51%;" title="Sistemas de liberação"></div>
+          <div class="marker" style="left:34%; top:78%;" title="Ortopedia — joelho"></div>
+        </div>
+
+        <div class="app-list">
+          <div class="app-item"><div class="sw"></div><div><h3>Ortopedia</h3><p>Próteses de quadril e joelho, fixadores ósseos.</p></div></div>
+          <div class="app-item"><div class="sw"></div><div><h3>Cardiologia</h3><p>Válvulas cardíacas artificiais, stents e marca-passos.</p></div></div>
+          <div class="app-item"><div class="sw"></div><div><h3>Odontologia</h3><p>Implantes dentários, coroas e cimentos restauradores.</p></div></div>
+          <div class="app-item"><div class="sw"></div><div><h3>Sistemas de liberação</h3><p>Cápsulas poliméricas para liberação controlada de medicamentos.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SLIDE 5 — ENGENHARIA DE TECIDOS ========== -->
+  <section class="slide" id="s5">
+    <div class="slide-num">05</div>
+    <div class="slide-inner">
+      <div class="kicker">Engenharia de tecidos e o futuro</div>
+      <h2>Da estrutura à regeneração</h2>
+
+      <div class="future-grid">
+        <div class="future-item">
+          <div class="future-index">01</div>
+          <div><h3>Scaffolds</h3><p>Arcabouços tridimensionais que servem de guia para o crescimento de novas células.</p></div>
+        </div>
+        <div class="future-item">
+          <div class="future-index">02</div>
+          <div><h3>Impressão 3D e 4D</h3><p>Fabricação de tecidos e órgãos sob medida para as necessidades de cada paciente.</p></div>
+        </div>
+        <div class="future-item">
+          <div class="future-index">03</div>
+          <div><h3>Medicina regenerativa</h3><p>O objetivo final do campo: curar o órgão em vez de apenas substituí-lo.</p></div>
+        </div>
+      </div>
+      <p class="future-goal">"O futuro dos biomateriais não é mais próteses melhores — é corpos que se regeneram."</p>
+    </div>
+  </section>
+
+  <!-- ========== SLIDE 6 — DESAFIOS E TENDÊNCIAS ========== -->
+  <section class="slide" id="s6">
+    <div class="slide-num">06</div>
+    <div class="slide-inner">
+      <div class="kicker">Desafios e tendências no mercado</div>
+      <h2>O que ainda trava a área</h2>
+
+      <div class="chal-grid">
+        <div class="chal-row">
+          <h3>Biocompatibilidade</h3>
+          <p>Redução do risco de rejeição e de infecções bacterianas associadas a implantes.</p>
+          <div class="gauge"><i style="width:62%"></i></div>
+          <div class="gauge-labels"><span>desafio central</span><span>evolução contínua</span></div>
+        </div>
+        <div class="chal-row">
+          <h3>Regulamentação</h3>
+          <p>Processo longo e rigoroso de testes exigido antes do uso em humanos.</p>
+          <div class="gauge"><i style="width:80%"></i></div>
+          <div class="gauge-labels"><span>alta exigência</span><span>segurança do paciente</span></div>
+        </div>
+        <div class="chal-row">
+          <h3>Sustentabilidade</h3>
+          <p>Desenvolvimento de biomateriais a partir de fontes renováveis.</p>
+          <div class="gauge"><i style="width:38%"></i></div>
+          <div class="gauge-labels"><span>fronteira emergente</span><span>tendência crescente</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SLIDE 7 — ENCERRAMENTO ========== -->
+  <section class="slide" id="s7">
+    <div class="slide-num">08</div>
+    <div class="slide-inner">
+      <div class="kicker" style="color:var(--bone);">Encerramento</div>
+      <h2>Da substituição à regeneração</h2>
+      <p class="lede">Os biomateriais deixaram de ser peças inertes para se tornar sistemas que dialogam com o corpo — e a próxima fronteira é curar órgãos, não apenas substituí-los.</p>
+      <p class="close-sign">Obrigado.</p>
+    </div>
+  </section>
+
+</div>
+
+    <footer>
+        <p>Projeto interativo sobre Biomateriais — HTML, CSS e JavaScript.</p>
+    </footer>
+
+    <script>
+        // Lógica do Accordion
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const accordionItem = header.parentElement;
+                
+                // Fechar o item aberto anteriormente
+                const currentlyActive = document.querySelector('.accordion-item.active');
+                if (currentlyActive && currentlyActive !== accordionItem) {
+                    currentlyActive.classList.remove('active');
+                }
+
+                // Abrir/Fechar o item clicado
+                accordionItem.classList.toggle('active');
+            });
+        });
+    </script>
+<script src="script.js"></script>
+</body>
+</html>
+</html>
