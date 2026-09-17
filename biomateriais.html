@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomateriais — da inércia à regeneração</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#10171a;
+  --ink-soft:#182225;
+  --bone:#ece6d6;
+  --bone-dim:#d9d2bd;
+  --paper:#f4f0e4;
+  --tissue:#4fa88c;
+  --tissue-dim:#2f6656;
+  --vascular:#c15b4a;
+  --titanium:#8b938d;
+  --line:rgba(236,230,214,0.16);
+  --line-dark:rgba(16,23,26,0.12);
+  --ink-text:#e9e3d2;
+  font-family:'IBM Plex Sans', sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--tissue);color:var(--paper);}
+h1,h2,h3{
+  font-family:'Petrona', serif;
+  font-weight:500;
+  margin:0;
+  letter-spacing:-0.01em;
+}
+p{margin:0;line-height:1.6;}
+.mono{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  letter-spacing:0.02em;
+}
+a{color:inherit;}
+button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit;}
+
+/* ===== layout shell ===== */
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+section{position:relative;}
+
+/* ===== nav ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 32px;
+  background:rgba(16,23,26,0.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  color:var(--ink-text);
+  transition:background 0.3s;
+}
+nav.on-light{
+  background:rgba(244,240,228,0.88);
+  color:var(--ink);
+  border-bottom:1px solid var(--line-dark);
+}
+.nav-brand{
+  font-family:'Petrona', serif;
+  font-size:1.05rem;
+  font-style:italic;
+  font-weight:500;
+}
+.nav-links{display:flex;gap:26px;list-style:none;margin:0;padding:0;}
+.nav-links button{
+  font-size:0.78rem;
+  font-family:'IBM Plex Mono', monospace;
+  opacity:0.6;
+  transition:opacity 0.2s;
+  padding:4px 0;
+  position:relative;
+}
+.nav-links button:hover,.nav-links button.active{opacity:1;}
+.nav-links button.active::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:currentColor;
+}
+.nav-toggle{display:none;}
+@media(max-width:820px){
+  .nav-links{display:none;}
+}
+
+/* ===== hero ===== */
+.hero{
+  min-height:100vh;
+  background:var(--ink);
+  color:var(--ink-text);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  padding-top:80px;
+}
+.hero-mesh{
+  position:absolute;inset:-40px;
+  opacity:0.5;
+}
+.hero-mesh svg{width:calc(100% + 80px);height:calc(100% + 80px);}
+#floatCircles circle,#floatCircles2 circle{transition:transform 0.1s linear;}
+.hero-content{position:relative;z-index:2;perspective:1000px;}
+.hero-content h1,.hero-content .hero-sub{transition:transform 0.15s ease-out;transform-style:preserve-3d;}
+.ripple{
+  position:fixed;
+  width:8px;height:8px;
+  border-radius:50%;
+  border:1px solid var(--tissue);
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%) scale(1);
+  animation:rippleGrow 0.7s ease-out forwards;
+}
+@keyframes rippleGrow{
+  0%{opacity:0.9;width:8px;height:8px;}
+  100%{opacity:0;width:70px;height:70px;}
+}
+.hero-eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.78rem;
+  color:var(--tissue);
+  margin-bottom:22px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--tissue);animation:pulse 2.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+.hero h1{
+  font-size:clamp(3.2rem,8vw,6.4rem);
+  line-height:0.98;
+  max-width:900px;
+}
+.hero h1 em{font-style:italic;color:var(--tissue);}
+.hero-sub{
+  max-width:520px;
+  margin-top:28px;
+  font-size:1.08rem;
+  color:var(--bone-dim);
+}
+.hero-scroll{
+  margin-top:64px;
+  display:flex;align-items:center;gap:14px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  color:var(--titanium);
+}
+.hero-scroll .line{width:38px;height:1px;background:var(--titanium);}
+
+/* ===== section headers ===== */
+.section-head{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:24px;
+  padding-top:100px;
+  margin-bottom:52px;
+  align-items:baseline;
+}
+.section-num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.78rem;
+  color:var(--tissue-dim);
+}
+.section-head h2{font-size:clamp(2rem,4vw,2.8rem);}
+.section-kicker{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  color:var(--titanium);
+  text-transform:none;
+  margin-top:6px;
+  max-width:60ch;
+}
+@media(max-width:640px){
+  .section-head{grid-template-columns:1fr;gap:8px;}
+}
+
+/* ===== CONCEITO section ===== */
+.concept-grid{
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:56px;
+  padding-bottom:100px;
+  align-items:start;
+}
+.concept-lede{font-size:1.28rem;line-height:1.55;font-family:'Petrona',serif;}
+.concept-cards{display:flex;flex-direction:column;gap:0;}
+.concept-card{
+  padding:22px 0;
+  border-top:1px solid var(--line-dark);
+}
+.concept-card:last-child{border-bottom:1px solid var(--line-dark);}
+.concept-card h3{font-size:1.02rem;font-weight:600;margin-bottom:8px;font-family:'IBM Plex Sans';}
+.concept-card p{font-size:0.92rem;color:#4a4a42;}
+@media(max-width:820px){.concept-grid{grid-template-columns:1fr;gap:32px;}}
+
+/* ===== CLASSIFICAÇÃO — interactive response selector ===== */
+.classify{background:var(--ink);color:var(--ink-text);padding-bottom:110px;}
+.classify .section-num,.classify .section-kicker{color:var(--titanium);}
+.classify-tabs{
+  display:flex;gap:0;
+  border-bottom:1px solid var(--line);
+  margin-bottom:44px;
+  flex-wrap:wrap;
+}
+.classify-tab{
+  padding:16px 26px 16px 0;
+  margin-right:34px;
+  font-family:'Petrona',serif;
+  font-size:1.3rem;
+  color:var(--bone-dim);
+  border-bottom:2px solid transparent;
+  transition:color 0.25s;
+  position:relative;
+  top:1px;
+}
+.classify-tab .tag{
+  display:block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.68rem;
+  color:var(--titanium);
+  margin-top:4px;
+}
+.classify-tab.active{color:var(--ink-text);border-bottom-color:var(--tissue);}
+.classify-body{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:56px;
+  align-items:center;
+}
+.classify-panel{display:none;grid-column:1/2;animation:fadein 0.4s ease;}
+.classify-panel.active{display:block;}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.classify-panel p{color:var(--bone-dim);font-size:1.02rem;margin-bottom:20px;}
+.classify-example{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.78rem;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-left:2px solid var(--tissue);
+  color:var(--bone);
+}
+.classify-visual{
+  grid-column:2/3;
+  height:280px;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.classify-visual svg{width:100%;height:100%;}
+.orbit-stage{
+  width:220px;height:220px;
+  position:relative;
+  transform-style:preserve-3d;
+  perspective:600px;
+}
+.orbit-core{
+  position:absolute;top:50%;left:50%;width:18px;height:18px;margin:-9px;
+  border-radius:50%;
+  background:var(--titanium);
+  transition:background 0.5s, box-shadow 0.5s;
+  box-shadow:0 0 0 0 transparent;
+}
+.orbit-ring{
+  position:absolute;inset:0;
+  border:1px solid var(--titanium);
+  border-radius:50%;
+  transform-style:preserve-3d;
+  transition:border-color 0.5s, opacity 0.5s;
+  animation:orbitSpin linear infinite;
+}
+.ring-1{transform:rotateX(72deg);animation-duration:9s;}
+.ring-2{transform:rotateX(72deg) rotateY(60deg);animation-duration:13s;animation-direction:reverse;}
+.ring-3{transform:rotateX(72deg) rotateY(120deg);animation-duration:17s;}
+@keyframes orbitSpin{from{transform:rotateX(72deg) rotateZ(0deg);}to{transform:rotateX(72deg) rotateZ(360deg);}}
+.ring-2{animation-name:orbitSpin2;}
+.ring-3{animation-name:orbitSpin3;}
+@keyframes orbitSpin2{from{transform:rotateX(72deg) rotateY(60deg) rotateZ(0deg);}to{transform:rotateX(72deg) rotateY(60deg) rotateZ(-360deg);}}
+@keyframes orbitSpin3{from{transform:rotateX(72deg) rotateY(120deg) rotateZ(0deg);}to{transform:rotateX(72deg) rotateY(120deg) rotateZ(360deg);}}
+.orbit-dot{
+  position:absolute;top:-4px;left:50%;width:8px;height:8px;margin-left:-4px;
+  border-radius:50%;
+  background:var(--titanium);
+  transition:background 0.5s;
+}
+/* bioativo: bonded/glowing */
+.classify-visual[data-state="ativo"] .orbit-core{background:var(--tissue);box-shadow:0 0 24px 4px rgba(79,168,140,0.5);}
+.classify-visual[data-state="ativo"] .orbit-ring{border-color:var(--tissue);}
+.classify-visual[data-state="ativo"] .orbit-dot{background:var(--tissue);}
+/* bioabsorvivel: dissolving */
+.classify-visual[data-state="absorv"] .orbit-core{background:var(--vascular);}
+.classify-visual[data-state="absorv"] .orbit-ring{border-color:var(--vascular);border-style:dashed;opacity:0.55;}
+.classify-visual[data-state="absorv"] .orbit-dot{background:var(--vascular);}
+.classify-visual[data-state="absorv"] .ring-3{opacity:0.25;}
+@media(max-width:820px){
+  .classify-body{grid-template-columns:1fr;}
+  .classify-panel,.classify-visual{grid-column:1/2;}
+  .classify-visual{height:220px;order:-1;}
+}
+
+/* ===== MATERIAIS — flip cards 3D ===== */
+.materials{padding-bottom:110px;}
+.material-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+.material-scene{
+  perspective:1400px;
+  min-height:280px;
+}
+.material-card{
+  position:relative;
+  width:100%;height:280px;
+  cursor:pointer;
+  transform-style:preserve-3d;
+  transition:transform 0.7s cubic-bezier(.25,.9,.3,1.1);
+}
+.material-scene.flipped .material-card{transform:rotateY(180deg);}
+.material-face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border:1px solid var(--line-dark);
+  padding:26px 22px;
+  display:flex;flex-direction:column;
+  background:var(--paper);
+  transition:transform 0.15s ease-out, box-shadow 0.3s;
+}
+.material-scene:not(.flipped):hover .material-face-front{
+  box-shadow:0 18px 34px -18px rgba(16,23,26,0.35);
+}
+.material-face-back{
+  transform:rotateY(180deg);
+  background:var(--ink);
+  color:var(--ink-text);
+  justify-content:center;
+}
+.material-icon{width:38px;height:38px;margin-bottom:24px;color:var(--tissue-dim);}
+.material-card h3{font-size:1.15rem;margin-bottom:auto;padding-bottom:14px;}
+.material-flip-hint{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.62rem;
+  color:var(--titanium);
+  margin-top:auto;
+}
+.material-detail{
+  font-size:0.87rem;
+  line-height:1.55;
+  opacity:0.9;
+}
+.material-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.66rem;
+  color:var(--tissue);
+  margin-bottom:14px;
+}
+.material-card.active .material-tag{color:var(--tissue);}
+@media(max-width:820px){
+  .material-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:520px){
+  .material-grid{grid-template-columns:1fr;}
+}
+
+/* ===== rotating scaffold cube (3D) ===== */
+.cube-wrap{
+  display:flex;align-items:center;justify-content:center;
+  padding:20px 0 60px;
+  gap:56px;
+  flex-wrap:wrap;
+}
+.cube-stage{
+  width:160px;height:160px;
+  perspective:700px;
+}
+.cube{
+  width:100%;height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transform:rotateX(-24deg) rotateY(35deg);
+  animation:cubeSpin 16s linear infinite;
+  cursor:grab;
+}
+.cube:active{cursor:grabbing;}
+.cube-face{
+  position:absolute;width:160px;height:160px;
+  border:1px solid var(--tissue-dim);
+  background:rgba(79,168,140,0.07);
+  background-image:
+    linear-gradient(var(--line-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-dark) 1px, transparent 1px);
+  background-size:20px 20px;
+}
+.cube-face:nth-child(1){transform:translateZ(80px);}
+.cube-face:nth-child(2){transform:rotateY(180deg) translateZ(80px);}
+.cube-face:nth-child(3){transform:rotateY(90deg) translateZ(80px);}
+.cube-face:nth-child(4){transform:rotateY(-90deg) translateZ(80px);}
+.cube-face:nth-child(5){transform:rotateX(90deg) translateZ(80px);}
+.cube-face:nth-child(6){transform:rotateX(-90deg) translateZ(80px);}
+@keyframes cubeSpin{
+  from{transform:rotateX(-24deg) rotateY(35deg);}
+  to{transform:rotateX(-24deg) rotateY(395deg);}
+}
+.cube-caption{max-width:280px;}
+.cube-caption .section-kicker{margin-top:10px;}
+.cube-caption h3{font-size:1.2rem;margin-bottom:10px;}
+.cube-hint{
+  font-family:'IBM Plex Mono',monospace;font-size:0.66rem;
+  color:var(--titanium);margin-top:16px;
+}
+
+/* ===== APLICAÇÕES — body hotspot diagram ===== */
+.applications{background:var(--ink);color:var(--ink-text);padding-bottom:110px;}
+.applications .section-num,.applications .section-kicker{color:var(--titanium);}
+.app-grid{
+  display:grid;
+  grid-template-columns:0.8fr 1.2fr;
+  gap:48px;
+  align-items:center;
+}
+.body-diagram{position:relative;perspective:900px;}
+.body-diagram svg{width:100%;max-width:340px;display:block;margin:0 auto;transition:transform 0.15s ease-out;transform-style:preserve-3d;}
+.hotspot{cursor:pointer;}
+.hotspot circle{fill:var(--titanium);transition:fill 0.25s, r 0.25s;}
+.hotspot.active circle{fill:var(--tissue);}
+.hotspot:hover circle{fill:var(--vascular);}
+.hotspot.pulse circle:last-child{animation:hotspotPulse 0.5s ease;}
+@keyframes hotspotPulse{0%{r:5;}50%{r:11;}100%{r:5;}}
+.app-detail-title{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;
+  color:var(--tissue);
+  margin-bottom:14px;
+}
+.app-detail h3{font-size:1.9rem;margin-bottom:16px;}
+.app-detail p{color:var(--bone-dim);font-size:1rem;margin-bottom:22px;}
+.app-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.app-list li{
+  font-size:0.9rem;
+  padding-left:16px;
+  border-left:1px solid var(--line);
+  color:var(--bone);
+}
+@media(max-width:820px){
+  .app-grid{grid-template-columns:1fr;}
+}
+
+/* ===== ENGENHARIA DE TECIDOS — timeline ===== */
+.future{padding-bottom:110px;}
+.future-steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  position:relative;
+}
+.future-steps::before{
+  content:'';
+  position:absolute;top:20px;left:0;right:0;height:1px;
+  background:var(--line-dark);
+}
+.future-step{padding-right:32px;position:relative;}
+.future-step .fnum{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--paper);
+  border:1px solid var(--line-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:0.78rem;
+  margin-bottom:24px;position:relative;z-index:2;
+  transition:background 0.3s, color 0.3s, border-color 0.3s;
+}
+.future-step.in-view .fnum{background:var(--tissue);color:var(--paper);border-color:var(--tissue);}
+.future-step h3{font-size:1.3rem;margin-bottom:12px;}
+.future-step p{font-size:0.92rem;color:#4a4a42;}
+@media(max-width:820px){
+  .future-steps{grid-template-columns:1fr;gap:44px;}
+  .future-steps::before{display:none;}
+}
+
+/* ===== DESAFIOS — gauge cards ===== */
+.challenges{background:var(--ink);color:var(--ink-text);padding-bottom:130px;}
+.challenges .section-num,.challenges .section-kicker{color:var(--titanium);}
+.challenge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);perspective:1000px;}
+.challenge-card{background:var(--ink);padding:30px 24px 34px;transition:transform 0.15s ease-out, background 0.25s;transform-style:preserve-3d;}
+.challenge-card:hover{background:var(--ink-soft);}
+.challenge-card h3{font-size:1.1rem;margin-bottom:14px;line-height:1.3;}
+.challenge-card p{font-size:0.88rem;color:var(--bone-dim);margin-bottom:20px;}
+.gauge{height:4px;background:rgba(236,230,214,0.14);position:relative;overflow:hidden;}
+.gauge-fill{height:100%;background:var(--tissue);width:0%;transition:width 1.2s cubic-bezier(.2,.8,.2,1);}
+.gauge-label{
+  display:flex;justify-content:space-between;
+  font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--titanium);margin-top:8px;
+}
+@media(max-width:820px){.challenge-grid{grid-template-columns:1fr;}}
+
+/* ===== footer ===== */
+footer{
+  padding:60px 32px 40px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.7rem;
+  color:var(--titanium);
+  border-top:1px solid var(--line-dark);
+  flex-wrap:wrap;gap:20px;
+}
+footer .fmark{font-family:'Petrona',serif;font-style:italic;font-size:1rem;color:var(--ink);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-brand">Biomateriais</div>
+  <ul class="nav-links">
+    <li><button data-target="#conceito" class="navlink">conceito</button></li>
+    <li><button data-target="#classificacao" class="navlink">classificação</button></li>
+    <li><button data-target="#materiais" class="navlink">materiais</button></li>
+    <li><button data-target="#aplicacoes" class="navlink">aplicações</button></li>
+    <li><button data-target="#futuro" class="navlink">futuro</button></li>
+    <li><button data-target="#desafios" class="navlink">desafios</button></li>
+  </ul>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="hero-mesh">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <pattern id="scaffoldPattern" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path d="M0 0 L60 60 M60 0 L0 60" stroke="#2f6656" stroke-width="0.6" opacity="0.5"/>
+          <circle cx="30" cy="30" r="1.4" fill="#4fa88c" opacity="0.6"/>
+        </pattern>
+      </defs>
+      <rect width="1200" height="800" fill="url(#scaffoldPattern)"/>
+      <g id="floatCircles">
+        <circle cx="220" cy="180" r="90" fill="none" stroke="#4fa88c" stroke-width="0.5" opacity="0.35"/>
+        <circle cx="980" cy="560" r="140" fill="none" stroke="#c15b4a" stroke-width="0.5" opacity="0.25"/>
+        <circle cx="880" cy="140" r="50" fill="none" stroke="#8b938d" stroke-width="0.5" opacity="0.3"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap hero-content">
+    <div class="hero-eyebrow"><span class="dot"></span>ciência dos materiais aplicada ao corpo humano</div>
+    <h1>Materiais que o corpo<br>aprende a <em>aceitar</em>.</h1>
+    <p class="hero-sub">De ligas inertes a arcabouços que guiam a regeneração de tecidos: uma jornada pela engenharia projetada para conversar com a biologia.</p>
+    <div class="hero-scroll"><span class="line"></span> role para explorar</div>
+  </div>
+</header>
+
+<!-- ========== CONCEITO ========== -->
+<section id="conceito" class="wrap">
+  <div class="section-head">
+    <div class="section-num">01</div>
+    <div>
+      <h2>O que são biomateriais</h2>
+      <div class="section-kicker">definição, trajetória histórica e o requisito que torna tudo isso possível</div>
+    </div>
+  </div>
+  <div class="concept-grid">
+    <p class="concept-lede">Biomateriais são substâncias — sintéticas ou naturais — projetadas para interagir diretamente com sistemas biológicos, no tratamento ou substituição de tecidos e órgãos danificados. Eles não apenas ocupam espaço no corpo: precisam <em style="font-style:italic;color:var(--tissue-dim)">dialogar</em> com ele.</p>
+    <div class="concept-cards">
+      <div class="concept-card">
+        <h3>Evolução</h3>
+        <p>De dispositivos e implantes rudimentares — pinos e placas metálicas com função puramente mecânica — à bioengenharia avançada, que projeta materiais em escala celular.</p>
+      </div>
+      <div class="concept-card">
+        <h3>Biocompatibilidade</h3>
+        <p>O requisito crítico e indispensável de qualquer biomaterial: evitar reações adversas, toxicidade ou rejeição imunológica pelo organismo receptor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CLASSIFICAÇÃO ========== -->
+<section id="classificacao" class="classify">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div>
+        <h2>Classificação quanto à resposta biológica</h2>
+        <div class="section-kicker">como cada material se comporta diante do tecido vivo</div>
+      </div>
+    </div>
+
+    <div class="classify-tabs">
+      <button class="classify-tab active" data-panel="p-inerte">Bioinertes<span class="tag">resposta mínima</span></button>
+      <button class="classify-tab" data-panel="p-ativo">Bioativos<span class="tag">ligação química</span></button>
+      <button class="classify-tab" data-panel="p-absorv">Bioabsorvíveis<span class="tag">degradação programada</span></button>
+    </div>
+
+    <div class="classify-body">
+      <div class="classify-panel active" id="p-inerte">
+        <p>Não reagem com os tecidos vizinhos nem provocam reações químicas significativas. O corpo os tolera formando uma fina cápsula fibrosa ao redor, sem rejeição nem integração ativa.</p>
+        <div class="classify-example">EX. Ligas de titânio em implantes ortopédicos</div>
+      </div>
+      <div class="classify-panel" id="p-ativo">
+        <p>Estabelecem ligações químicas diretas com o tecido vivo, promovendo a formação de uma interface real entre material e osso — sem cápsula intermediária.</p>
+        <div class="classify-example">EX. Biovidros e hidroxiapatita</div>
+      </div>
+      <div class="classify-panel" id="p-absorv">
+        <p>Degradam-se de forma programada e são reabsorvidos com segurança pelo organismo, na exata medida em que o tecido novo se regenera ao redor.</p>
+        <div class="classify-example">EX. Fios de sutura em PLGA</div>
+      </div>
+
+      <div class="classify-visual" id="classifyVisual" data-state="inerte">
+        <div class="orbit-stage">
+          <div class="orbit-core"></div>
+          <div class="orbit-ring ring-1"><div class="orbit-dot"></div></div>
+          <div class="orbit-ring ring-2"><div class="orbit-dot"></div></div>
+          <div class="orbit-ring ring-3"><div class="orbit-dot"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MATERIAIS ========== -->
+<section id="materiais" class="materials wrap">
+  <div class="section-head">
+    <div class="section-num">03</div>
+    <div>
+      <h2>Classes de materiais</h2>
+      <div class="section-kicker">quatro famílias, cada uma emprestando uma propriedade diferente à biologia — toque para expandir</div>
+    </div>
+  </div>
+
+  <div class="material-grid" id="materialGrid">
+    <div class="material-scene" data-material="polimeros">
+      <div class="material-card">
+        <div class="material-face material-face-front">
+          <svg class="material-icon" viewBox="0 0 40 40" fill="none"><path d="M4 30 Q12 10 20 30 T36 30" stroke="currentColor" stroke-width="1.4"/><circle cx="4" cy="30" r="2" fill="currentColor"/><circle cx="20" cy="30" r="2" fill="currentColor"/><circle cx="36" cy="30" r="2" fill="currentColor"/></svg>
+          <h3>Polímeros</h3>
+          <div class="material-flip-hint">toque para girar ↻</div>
+        </div>
+        <div class="material-face material-face-back">
+          <div class="material-tag">flexível / moldável</div>
+          <div class="material-detail">Cadeias longas e maleáveis que se ajustam a superfícies irregulares. Aplicados em lentes de contato, hidrogéis e pele artificial — onde a flexibilidade importa mais que a rigidez.</div>
+        </div>
+      </div>
+    </div>
+    <div class="material-scene" data-material="metais">
+      <div class="material-card">
+        <div class="material-face material-face-front">
+          <svg class="material-icon" viewBox="0 0 40 40" fill="none"><rect x="8" y="8" width="24" height="24" stroke="currentColor" stroke-width="1.4"/><rect x="14" y="14" width="12" height="12" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Metais</h3>
+          <div class="material-flip-hint">toque para girar ↻</div>
+        </div>
+        <div class="material-face material-face-back">
+          <div class="material-tag">alta resistência mecânica</div>
+          <div class="material-detail">Suportam cargas repetidas sem fadiga. Base de pinos, placas e parafusos ortopédicos, onde a estrutura precisa segurar o corpo em movimento.</div>
+        </div>
+      </div>
+    </div>
+    <div class="material-scene" data-material="ceramicas">
+      <div class="material-card">
+        <div class="material-face material-face-front">
+          <svg class="material-icon" viewBox="0 0 40 40" fill="none"><path d="M20 6 L34 34 L6 34 Z" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Cerâmicas</h3>
+          <div class="material-flip-hint">toque para girar ↻</div>
+        </div>
+        <div class="material-face material-face-back">
+          <div class="material-tag">resistência à compressão</div>
+          <div class="material-detail">Duras e estáveis sob carga de compressão, com afinidade química por tecidos duros. Usadas em odontologia e enxertos ósseos.</div>
+        </div>
+      </div>
+    </div>
+    <div class="material-scene" data-material="compositos">
+      <div class="material-card">
+        <div class="material-face material-face-front">
+          <svg class="material-icon" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="16" r="7" stroke="currentColor" stroke-width="1.4"/><rect x="18" y="20" width="16" height="14" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Compósitos</h3>
+          <div class="material-flip-hint">toque para girar ↻</div>
+        </div>
+        <div class="material-face material-face-back">
+          <div class="material-tag">propriedades combinadas</div>
+          <div class="material-detail">Unem duas ou mais classes para mimetizar com precisão a estrutura e a rigidez dos ossos naturais — o melhor de cada mundo, numa única peça.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== APLICAÇÕES ========== -->
+<section id="aplicacoes" class="applications">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <div>
+        <h2>Aplicações clínicas</h2>
+        <div class="section-kicker">toque em um ponto do corpo para ver onde a ciência já atua</div>
+      </div>
+    </div>
+
+    <div class="app-grid">
+      <div class="body-diagram">
+        <svg viewBox="0 0 200 420" aria-hidden="true">
+          <path d="M100 20 a22 22 0 1 0 0.1 0 Z" fill="none" stroke="#3a4a45" stroke-width="1"/>
+          <path d="M70 55 Q100 45 130 55 L140 190 Q130 260 118 280 L112 400 M88 400 L82 280 Q70 260 60 190 Z" fill="none" stroke="#3a4a45" stroke-width="1"/>
+          <path d="M70 60 L30 130 M130 60 L170 130" fill="none" stroke="#3a4a45" stroke-width="1"/>
+
+          <g class="hotspot" data-app="app-ortho" transform="translate(112,280)">
+            <circle r="14" opacity="0.15"/>
+            <circle r="5"/>
+          </g>
+          <g class="hotspot" data-app="app-cardio" transform="translate(96,130)">
+            <circle r="14" opacity="0.15"/>
+            <circle r="5"/>
+          </g>
+          <g class="hotspot" data-app="app-dental" transform="translate(100,25)">
+            <circle r="14" opacity="0.15"/>
+            <circle r="5"/>
+          </g>
+          <g class="hotspot" data-app="app-drug" transform="translate(80,175)">
+            <circle r="14" opacity="0.15"/>
+            <circle r="5"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="app-detail">
+        <div class="app-detail-title" id="appTag">ORTOPEDIA</div>
+        <h3 id="appTitle">Próteses e fixação óssea</h3>
+        <p id="appDesc">Próteses articulares de quadril e joelho, além de dispositivos de fixação óssea que devolvem carga e movimento a estruturas comprometidas.</p>
+        <ul class="app-list" id="appList">
+          <li>Próteses de quadril e joelho</li>
+          <li>Placas e parafusos de fixação</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FUTURO ========== -->
+<section id="futuro" class="future wrap">
+  <div class="section-head">
+    <div class="section-num">05</div>
+    <div>
+      <h2>Engenharia de tecidos e o futuro</h2>
+      <div class="section-kicker">da substituição inanimada à regeneração de tecido vivo</div>
+    </div>
+  </div>
+
+  <div class="cube-wrap">
+    <div class="cube-stage" id="cubeStage">
+      <div class="cube" id="scaffoldCube">
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+      </div>
+    </div>
+    <div class="cube-caption">
+      <h3>Um scaffold, camada por camada</h3>
+      <p class="section-kicker" style="color:#4a4a42;">Cada face representa uma camada impressa da matriz porosa. Arraste com o mouse para girar o arcabouço.</p>
+      <div class="cube-hint">clique e arraste ／ toque e arraste</div>
+    </div>
+  </div>
+
+  <div class="future-steps">
+    <div class="future-step">
+      <div class="fnum">1</div>
+      <h3>Scaffolds</h3>
+      <p>Arcabouços tridimensionais e porosos que funcionam como um guia físico para a aderência e o crescimento de novas células.</p>
+    </div>
+    <div class="future-step">
+      <div class="fnum">2</div>
+      <h3>Impressão 3D e 4D</h3>
+      <p>Manufatura aditiva de bio-tintas capazes de criar tecidos anatômicos e órgãos sob medida para cada paciente.</p>
+    </div>
+    <div class="future-step">
+      <div class="fnum">3</div>
+      <h3>Medicina regenerativa</h3>
+      <p>A transição do modelo de substituição por próteses inanimadas para a regeneração efetiva de órgãos e tecidos vivos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DESAFIOS ========== -->
+<section id="desafios" class="challenges">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <div>
+        <h2>Desafios e tendências</h2>
+        <div class="section-kicker">o que ainda separa o laboratório da prática clínica em larga escala</div>
+      </div>
+    </div>
+
+    <div class="challenge-grid">
+      <div class="challenge-card">
+        <h3>Biocompatibilidade e infecções</h3>
+        <p>Necessidade contínua de reduzir rejeições imunológicas e infecções bacterianas associadas a implantes.</p>
+        <div class="gauge"><div class="gauge-fill" data-fill="72"></div></div>
+        <div class="gauge-label"><span>risco monitorado</span><span>72%</span></div>
+      </div>
+      <div class="challenge-card">
+        <h3>Regulamentação</h3>
+        <p>Processos e ensaios pré-clínicos e clínicos longos e rigorosos antes de qualquer uso em humanos.</p>
+        <div class="gauge"><div class="gauge-fill" data-fill="85"></div></div>
+        <div class="gauge-label"><span>rigor exigido</span><span>85%</span></div>
+      </div>
+      <div class="challenge-card">
+        <h3>Sustentabilidade</h3>
+        <p>Pesquisa voltada a biomateriais ecologicamente sustentáveis, derivados de fontes renováveis.</p>
+        <div class="gauge"><div class="gauge-fill" data-fill="48"></div></div>
+        <div class="gauge-label"><span>em expansão</span><span>48%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fmark">Biomateriais</div>
+  <div>conceito · classificação · materiais · aplicações · engenharia de tecidos · desafios</div>
+</footer>
+
+<script>
+// ---- global click ripple ----
+document.addEventListener('click', (e)=>{
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  r.style.left = e.clientX + 'px';
+  r.style.top = e.clientY + 'px';
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(), 700);
+});
+
+// ---- hero mouse parallax (3D depth) ----
+const heroEl = document.querySelector('.hero');
+const floatCircles = document.getElementById('floatCircles');
+const heroTitle = document.querySelector('.hero-content h1');
+const heroSub = document.querySelector('.hero-content .hero-sub');
+if(heroEl && window.matchMedia('(prefers-reduced-motion: no-preference)').matches){
+  heroEl.addEventListener('mousemove', (e)=>{
+    const rect = heroEl.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    if(floatCircles) floatCircles.setAttribute('transform', `translate(${px*30},${py*20})`);
+    if(heroTitle) heroTitle.style.transform = `translate3d(${px*-10}px, ${py*-6}px, 0)`;
+    if(heroSub) heroSub.style.transform = `translate3d(${px*-5}px, ${py*-3}px, 0)`;
+  });
+  heroEl.addEventListener('mouseleave', ()=>{
+    if(floatCircles) floatCircles.setAttribute('transform','translate(0,0)');
+    if(heroTitle) heroTitle.style.transform = 'translate3d(0,0,0)';
+    if(heroSub) heroSub.style.transform = 'translate3d(0,0,0)';
+  });
+}
+
+// ---- nav scroll-spy + smooth scroll ----
+const navLinks = document.querySelectorAll('.navlink');
+const sections = document.querySelectorAll('section[id], header[class*=hero]');
+const mainNav = document.getElementById('mainNav');
+
+navLinks.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target = document.querySelector(btn.dataset.target);
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+const lightSections = new Set(['conceito','materiais','futuro']);
+
+function onScroll(){
+  let current = '';
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120 && rect.bottom > 120){
+      current = sec.id;
+    }
+  });
+  navLinks.forEach(l=>l.classList.toggle('active', l.dataset.target === '#'+current));
+  mainNav.classList.toggle('on-light', lightSections.has(current));
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+// ---- classification tabs (+ 3D orbit visual) ----
+const stateMap = {'p-inerte':'inerte','p-ativo':'ativo','p-absorv':'absorv'};
+const classifyVisual = document.getElementById('classifyVisual');
+document.querySelectorAll('.classify-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.classify-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.classify-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.panel).classList.add('active');
+    if(classifyVisual) classifyVisual.dataset.state = stateMap[tab.dataset.panel];
+  });
+});
+// clicking the orbit gives it a little kick — the dot rings speed up briefly
+if(classifyVisual){
+  classifyVisual.addEventListener('click',()=>{
+    const stage = classifyVisual.querySelector('.orbit-stage');
+    stage.style.transition = 'transform 0.5s ease';
+    stage.style.transform = 'scale(1.12)';
+    setTimeout(()=>{ stage.style.transform = 'scale(1)'; }, 400);
+  });
+}
+
+// ---- material cards: 3D flip on click ----
+document.querySelectorAll('.material-scene').forEach(scene=>{
+  scene.addEventListener('click',()=>{
+    scene.classList.toggle('flipped');
+  });
+  // subtle 3D tilt on hover (front face)
+  const front = scene.querySelector('.material-face-front');
+  scene.addEventListener('mousemove',(e)=>{
+    if(scene.classList.contains('flipped')) return;
+    const rect = scene.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    front.style.transform = `rotateY(${px*10}deg) rotateX(${py*-10}deg)`;
+  });
+  scene.addEventListener('mouseleave',()=>{
+    front.style.transform = 'rotateY(0) rotateX(0)';
+  });
+});
+
+// ---- scaffold cube: drag to rotate ----
+(function(){
+  const cube = document.getElementById('scaffoldCube');
+  if(!cube) return;
+  let dragging = false, lastX = 0, lastY = 0, rotX = -24, rotY = 35;
+  const setTransform = ()=>{ cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`; };
+  const startDrag = (x,y)=>{ dragging = true; lastX = x; lastY = y; cube.style.animation = 'none'; };
+  const moveDrag = (x,y)=>{
+    if(!dragging) return;
+    rotY += (x - lastX) * 0.5;
+    rotX -= (y - lastY) * 0.5;
+    lastX = x; lastY = y;
+    setTransform();
+  };
+  const endDrag = ()=>{ dragging = false; };
+  cube.addEventListener('mousedown', e=>startDrag(e.clientX,e.clientY));
+  window.addEventListener('mousemove', e=>moveDrag(e.clientX,e.clientY));
+  window.addEventListener('mouseup', endDrag);
+  cube.addEventListener('touchstart', e=>{const t=e.touches[0]; startDrag(t.clientX,t.clientY);},{passive:true});
+  window.addEventListener('touchmove', e=>{const t=e.touches[0]; moveDrag(t.clientX,t.clientY);},{passive:true});
+  window.addEventListener('touchend', endDrag);
+})();
+
+// ---- body hotspots ----
+const appData = {
+  'app-ortho': {tag:'ORTOPEDIA', title:'Próteses e fixação óssea', desc:'Próteses articulares de quadril e joelho, além de dispositivos de fixação óssea que devolvem carga e movimento a estruturas comprometidas.', list:['Próteses de quadril e joelho','Placas e parafusos de fixação']},
+  'app-cardio': {tag:'CARDIOLOGIA', title:'Válvulas, stents e marca-passos', desc:'Dispositivos que restauram o ritmo e o fluxo sanguíneo — de válvulas artificiais a stents que mantêm vasos abertos.', list:['Válvulas cardíacas artificiais','Stents vasculares','Marca-passos']},
+  'app-dental': {tag:'ODONTOLOGIA', title:'Implantes e restaurações', desc:'Implantes osseointegráveis, coroas cerâmicas e cimentos restauradores que devolvem função e estética ao sorriso.', list:['Implantes osseointegráveis','Coroas cerâmicas','Cimentos restauradores']},
+  'app-drug': {tag:'DRUG DELIVERY', title:'Sistemas de liberação', desc:'Cápsulas e matrizes poliméricas que liberam medicamentos de forma gradual e direcionada ao alvo terapêutico.', list:['Cápsulas de liberação controlada','Matrizes poliméricas direcionadas']}
+};
+document.querySelectorAll('.hotspot').forEach(h=>{
+  h.addEventListener('click',()=>{
+    document.querySelectorAll('.hotspot').forEach(x=>x.classList.remove('active'));
+    h.classList.add('active');
+    h.classList.remove('pulse');
+    void h.offsetWidth;
+    h.classList.add('pulse');
+    const d = appData[h.dataset.app];
+    document.getElementById('appTag').textContent = d.tag;
+    document.getElementById('appTitle').textContent = d.title;
+    document.getElementById('appDesc').textContent = d.desc;
+    document.getElementById('appList').innerHTML = d.list.map(li=>`<li>${li}</li>`).join('');
+  });
+});
+document.querySelector('.hotspot[data-app="app-ortho"]').classList.add('active');
+
+// ---- body diagram 3D tilt on mouse ----
+const bodyDiagram = document.querySelector('.body-diagram');
+const bodySvg = bodyDiagram ? bodyDiagram.querySelector('svg') : null;
+if(bodyDiagram && bodySvg){
+  bodyDiagram.addEventListener('mousemove',(e)=>{
+    const rect = bodyDiagram.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    bodySvg.style.transform = `rotateY(${px*16}deg) rotateX(${py*-16}deg)`;
+  });
+  bodyDiagram.addEventListener('mouseleave',()=>{ bodySvg.style.transform = 'rotateY(0) rotateX(0)'; });
+}
+
+// ---- future steps in-view ----
+const futureObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
+},{threshold:0.5});
+document.querySelectorAll('.future-step').forEach(s=>futureObserver.observe(s));
+
+// ---- gauge fill on view ----
+const gaugeObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const fill = e.target;
+      fill.style.width = fill.dataset.fill + '%';
+      gaugeObserver.unobserve(fill);
+    }
+  });
+},{threshold:0.4});
+document.querySelectorAll('.gauge-fill').forEach(g=>gaugeObserver.observe(g));
+
+// ---- subtle 3D tilt on challenge cards ----
+document.querySelectorAll('.challenge-card').forEach(card=>{
+  card.addEventListener('mousemove',(e)=>{
+    const rect = card.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `rotateY(${px*6}deg) rotateX(${py*-6}deg) translateZ(4px)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.transform = 'rotateY(0) rotateX(0) translateZ(0)'; });
+});
+</script>
+</body>
+</html>
